@@ -22,10 +22,11 @@ npx esbuild entry.js --bundle --minify --format=esm --legal-comments=eof --outfi
 
 **One patch after bundling.** The ripple's hover layer ships with
 `transition: opacity 15ms linear, background-color 15ms linear`, which reads
-as instant. It is replaced with 200ms on M3's standard easing,
-`cubic-bezier(0.2, 0, 0, 1)`, so hovers fade in. Re-apply it if the bundle is
+as instant. It is replaced with 250ms on a symmetric ease-in-out,
+`cubic-bezier(0.45, 0, 0.55, 1)` — the same curve as every other hover in
+`css/m3-app.css` — so hovers fade in and out. Re-apply it if the bundle is
 rebuilt:
 
 ```bash
-sed -i 's/transition:opacity 15ms linear,background-color 15ms linear/transition:opacity 200ms cubic-bezier(0.2,0,0,1),background-color 200ms cubic-bezier(0.2,0,0,1)/' material-web-2.5.0.js
+sed -i 's/transition:opacity 15ms linear,background-color 15ms linear/transition:opacity 250ms cubic-bezier(0.45,0,0.55,1),background-color 250ms cubic-bezier(0.45,0,0.55,1)/' material-web-2.5.0.js
 ```

@@ -24,7 +24,7 @@ important first: who · how much · what's next (red when overdue) · where it's
 at · who referred it · whose it is · days in stage · documents · source and
 reference (lowest). Three text levels only: primary, secondary (`--sub`),
 and 11px for reference and source. `--sub` is deliberately light — about
-3.8:1 in B2C, under WCAG AA for small text; raise it to 80% in
+3.6:1 in B2C, under WCAG AA for small text; raise it to 80% in
 `css/m3-app.css` to get back to AA.
 
 **What jumps out**, and nothing else does:
@@ -64,12 +64,12 @@ Pipeline stages are named, never coloured. Other people's avatars are grey.
   date per row (kept in localStorage), name filter, status filter, sortable
   headers with Reset, paging.
 
-**Motion.** Everything that changes on hover fades on M3's standard easing
-(200ms); sheets, menus, tooltips and the snackbar come in on
+**Motion.** Every hover and state change eases in and out on a symmetric
+curve, `cubic-bezier(0.45, 0, 0.55, 1)` over 250ms; sheets, menus, tooltips and the snackbar come in on
 emphasized-decelerate. Re-renders (filtering, sorting, dragging) use the View
 Transitions API, so cards and rows glide to their new places, and List /
 Board / Easy View crossfade. Material Web's ripple ships with a 15ms hover,
-which reads as instant; the vendored bundle is patched to 200ms — see
+which reads as instant; the vendored bundle is patched to the same 250ms curve — see
 `js/vendor/README.md`.
 
 **Components** are Google's Material Web (`@material/web` 2.5.0), bundled into
@@ -82,8 +82,11 @@ icons are Material Symbols. Geist and the icons load from Google Fonts.
 **The colours.** `css/m3.css` is generated with Google's
 material-color-utilities (the engine behind the Material Theme Builder),
 fidelity variant, with the brand's core colours as key colours — primary
-`#5614BB`, secondary `#2F0273`, tertiary `#F33829` — and neutrals tinted from
-the primary hue. Three roles are pinned to brand values, each marked `brand`
+`#5614BB`, secondary `#2F0273`, tertiary `#F33829`. Neutrals are the one place this
+leaves stock M3: M3 tints every surface with the key colour, which turns the
+page lavender, so the surface, text-grey and outline roles map onto the
+brand's own neutral scale instead (`#F8F9FA` → `#212529`, extended with
+darker steps for B2B). Purple appears only where it marks something. Three roles are pinned to brand values, each marked `brand`
 in the file. Success and warning come from the brand's semantic tables. The
 Tailwind-style 50–950 scales sit at the top of the same file.
 

@@ -12,9 +12,14 @@
 
        primary   #5614BB      secondary #2F0273      tertiary #F33829
 
-   and neutrals tinted from the primary's hue, which is what gives M3 its
-   faintly lavender greys. Three roles are then pinned to brand values the
-   generator would otherwise shift, each marked "brand" below.
+   Three roles are then pinned to brand values the generator would
+   otherwise shift, each marked "brand" below.
+
+   Neutrals are the exception. M3 tints every surface with the key colour's
+   hue, which with this purple turns the whole page lavender. Instead the
+   surface, text-grey and outline roles map straight onto the brand's own
+   neutral scale below, so the page is plain grey and purple appears only
+   where it marks something.
 
    Audience:  B2C → light (default, or html[data-audience="b2c"])
               B2B → dark  (html[data-audience="b2b"])
@@ -48,6 +53,11 @@
   --lo-neutral-300: #DEE2E6;   --lo-neutral-400: #CED4DA;   --lo-neutral-500: #ADB5BD;
   --lo-neutral-600: #6C757D;   --lo-neutral-700: #495057;   --lo-neutral-800: #343A40;
   --lo-neutral-900: #212529;   --lo-neutral-950: #141619;
+
+  /* In-between steps the M3 surface ladder needs: one between 100 and 200
+     for the light container, and the dark containers below 900 for B2B. */
+  --lo-neutral-150: #F1F3F5;   --lo-neutral-750: #3E454B;   --lo-neutral-850: #2A2F34;
+  --lo-neutral-925: #1B1E21;   --lo-neutral-975: #0E1012;
 }
 
 
@@ -73,23 +83,23 @@
   --md-sys-color-on-error: #FFFFFF;
   --md-sys-color-error-container: #FEE2E2;
   --md-sys-color-on-error-container: #B42318;
-  --md-sys-color-background: #FEF7FF;
-  --md-sys-color-on-background: #1D1B20;
-  --md-sys-color-surface: #FEF7FF;
-  --md-sys-color-surface-dim: #DED8E0;
-  --md-sys-color-surface-bright: #FEF7FF;
+  --md-sys-color-background: var(--lo-neutral-50);
+  --md-sys-color-on-background: var(--lo-neutral-900);
+  --md-sys-color-surface: var(--lo-neutral-50);
+  --md-sys-color-surface-dim: var(--lo-neutral-300);
+  --md-sys-color-surface-bright: var(--lo-neutral-50);
   --md-sys-color-surface-container-lowest: #FFFFFF;
-  --md-sys-color-surface-container-low: #F8F1FA;
-  --md-sys-color-surface-container: #F2ECF4;
-  --md-sys-color-surface-container-high: #ECE6EE;
-  --md-sys-color-surface-container-highest: #E7E0E8;
-  --md-sys-color-on-surface: #1D1B20;
-  --md-sys-color-surface-variant: #E7E0EE;
-  --md-sys-color-on-surface-variant: #494550;
-  --md-sys-color-outline: #7A7582;
-  --md-sys-color-outline-variant: #CBC4D2;
-  --md-sys-color-inverse-surface: #322F35;
-  --md-sys-color-inverse-on-surface: #F5EFF7;
+  --md-sys-color-surface-container-low: var(--lo-neutral-100);
+  --md-sys-color-surface-container: var(--lo-neutral-150);
+  --md-sys-color-surface-container-high: var(--lo-neutral-200);
+  --md-sys-color-surface-container-highest: var(--lo-neutral-300);
+  --md-sys-color-on-surface: var(--lo-neutral-900);
+  --md-sys-color-surface-variant: var(--lo-neutral-200);
+  --md-sys-color-on-surface-variant: var(--lo-neutral-700);
+  --md-sys-color-outline: var(--lo-neutral-600);
+  --md-sys-color-outline-variant: var(--lo-neutral-400);
+  --md-sys-color-inverse-surface: var(--lo-neutral-800);
+  --md-sys-color-inverse-on-surface: var(--lo-neutral-100);
   --md-sys-color-inverse-primary: #D1BCFF;
   --md-sys-color-scrim: #000000;
   --md-sys-color-shadow: #000000;
@@ -123,23 +133,23 @@
   --md-sys-color-on-error: #3B1212;
   --md-sys-color-error-container: #3B1212;
   --md-sys-color-on-error-container: #FEE2E2;
-  --md-sys-color-background: #141218;
-  --md-sys-color-on-background: #E7E0E8;
-  --md-sys-color-surface: #141218;
-  --md-sys-color-surface-dim: #141218;
-  --md-sys-color-surface-bright: #3B383E;
-  --md-sys-color-surface-container-lowest: #0F0D13;
-  --md-sys-color-surface-container-low: #1D1B20;
-  --md-sys-color-surface-container: #211F24;
-  --md-sys-color-surface-container-high: #2B292F;
-  --md-sys-color-surface-container-highest: #36343A;
-  --md-sys-color-on-surface: #E7E0E8;
-  --md-sys-color-surface-variant: #494550;
-  --md-sys-color-on-surface-variant: #CBC4D2;
-  --md-sys-color-outline: #948E9C;
-  --md-sys-color-outline-variant: #494550;
-  --md-sys-color-inverse-surface: #E7E0E8;
-  --md-sys-color-inverse-on-surface: #322F35;
+  --md-sys-color-background: var(--lo-neutral-950);
+  --md-sys-color-on-background: var(--lo-neutral-200);
+  --md-sys-color-surface: var(--lo-neutral-950);
+  --md-sys-color-surface-dim: var(--lo-neutral-950);
+  --md-sys-color-surface-bright: #383D42;
+  --md-sys-color-surface-container-lowest: var(--lo-neutral-975);
+  --md-sys-color-surface-container-low: var(--lo-neutral-925);
+  --md-sys-color-surface-container: var(--lo-neutral-900);
+  --md-sys-color-surface-container-high: var(--lo-neutral-850);
+  --md-sys-color-surface-container-highest: var(--lo-neutral-800);
+  --md-sys-color-on-surface: var(--lo-neutral-200);
+  --md-sys-color-surface-variant: var(--lo-neutral-700);
+  --md-sys-color-on-surface-variant: var(--lo-neutral-400);
+  --md-sys-color-outline: #8B939B;
+  --md-sys-color-outline-variant: var(--lo-neutral-750);
+  --md-sys-color-inverse-surface: var(--lo-neutral-200);
+  --md-sys-color-inverse-on-surface: var(--lo-neutral-800);
   --md-sys-color-inverse-primary: #5614BB;
   --md-sys-color-scrim: #000000;
   --md-sys-color-shadow: #000000;

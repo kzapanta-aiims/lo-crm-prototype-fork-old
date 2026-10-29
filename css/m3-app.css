@@ -23,8 +23,8 @@
 
 :root {
   /* Secondary text: on-surface-variant pulled well toward the surface, so
-     it recedes behind the primary line. About 3.8:1 on the light sheet —
-     under WCAG AA's 4.5:1 for small text — and 4.6:1 or better in dark.
+     it recedes behind the primary line. About 3.6:1 on the light sheet —
+     under WCAG AA's 4.5:1 for small text — and 4.8:1 or better in dark.
      80% is the step back to AA in light. */
   --sub: color-mix(in srgb, var(--md-sys-color-on-surface-variant) 70%, var(--md-sys-color-surface));
   --rule: color-mix(in srgb, var(--md-sys-color-outline-variant) 45%, transparent);
@@ -34,6 +34,13 @@
   --ease-in: var(--md-sys-motion-easing-emphasized-decelerate);
   --ease-out: var(--md-sys-motion-easing-emphasized-accelerate);
   --t-short: var(--md-sys-motion-duration-short);
+
+  /* Hovers and other state changes ease in AND out on a symmetric curve,
+     so a hover neither snaps on nor snaps off — it fades both ways at the
+     same pace. 250ms is long enough to read as smooth, short enough that a
+     pointer sweeping across a list does not leave a trail. */
+  --ease-hover: cubic-bezier(0.45, 0, 0.55, 1);
+  --t-hover: 250ms;
   --t-med: var(--md-sys-motion-duration-medium);
 
   /* Material Web: quieter outlines on chips, segmented buttons and fields */
@@ -121,7 +128,7 @@ html, body {
   border-radius: var(--md-sys-shape-corner-full);
   display: grid;
   place-items: center;
-  transition: background-color var(--t-short) var(--ease);
+  transition: background-color var(--t-hover) var(--ease-hover);
 }
 .rail__dest:hover .rail__ind { background: var(--hover); }
 .rail__dest.is-on { color: var(--md-sys-color-on-surface); }
@@ -167,7 +174,7 @@ html, body {
   border-radius: var(--md-sys-shape-corner-full);
   background: var(--md-sys-color-surface-container-high);
   color: var(--md-sys-color-on-surface-variant);
-  transition: background-color var(--t-short) var(--ease), box-shadow var(--t-short) var(--ease);
+  transition: background-color var(--t-hover) var(--ease-hover), box-shadow var(--t-hover) var(--ease-hover);
 }
 .search:hover { background: color-mix(in srgb, var(--md-sys-color-surface-container-high), var(--md-sys-color-on-surface) 4%); }
 .search:focus-within {
@@ -296,7 +303,7 @@ html, body {
 .wl-row {
   position: relative;
   height: 68px;
-  transition: background-color var(--t-short) var(--ease);
+  transition: background-color var(--t-hover) var(--ease-hover);
 }
 .wl-row + .wl-row { box-shadow: inset 0 1px 0 var(--rule); }
 .wl-row:hover { background: var(--hover); }
@@ -324,7 +331,7 @@ html, body {
 .wl-actions md-icon-button {
   --md-icon-button-icon-color: var(--sub);
   opacity: .55;
-  transition: opacity var(--t-short) var(--ease);
+  transition: opacity var(--t-hover) var(--ease-hover);
 }
 .wl-row:hover .wl-actions md-icon-button,
 .wl-actions md-icon-button:focus-within { opacity: 1; }
@@ -345,7 +352,7 @@ html, body {
   letter-spacing: .2px;
   white-space: nowrap;
   cursor: default;
-  transition: box-shadow var(--t-short) var(--ease);
+  transition: box-shadow var(--t-hover) var(--ease-hover);
 }
 .tag md-icon { --md-icon-size: 14px; }
 .tag[data-tip]:hover { box-shadow: 0 0 0 1px currentColor inset; }
@@ -375,7 +382,7 @@ html, body {
   flex-direction: column;
   border-radius: var(--md-sys-shape-corner-large);
   background: var(--md-sys-color-surface-container-low);
-  transition: background-color var(--t-short) var(--ease), box-shadow var(--t-short) var(--ease);
+  transition: background-color var(--t-hover) var(--ease-hover), box-shadow var(--t-hover) var(--ease-hover);
 }
 .col.is-drop {
   background: color-mix(in srgb, var(--md-sys-color-primary) 8%, var(--md-sys-color-surface-container-low));
@@ -412,7 +419,7 @@ html, body {
   background: var(--md-sys-color-surface-container-lowest);
   box-shadow: 0 1px 2px rgba(0,0,0,.06), 0 1px 3px 1px rgba(0,0,0,.04);
   cursor: pointer;
-  transition: box-shadow var(--t-short) var(--ease), background-color var(--t-short) var(--ease), opacity var(--t-short) var(--ease);
+  transition: box-shadow var(--t-hover) var(--ease-hover), background-color var(--t-hover) var(--ease-hover), opacity var(--t-hover) var(--ease-hover);
 }
 [data-audience="b2b"] .card { background: var(--md-sys-color-surface-container-high); box-shadow: none; }
 .card:hover { box-shadow: 0 1px 3px rgba(0,0,0,.10), 0 4px 10px 2px rgba(0,0,0,.07); }
@@ -452,7 +459,7 @@ html, body {
   border-radius: 8px;
   border: 1px solid var(--md-sys-color-outline-variant);
   color: var(--sub);
-  transition: border-color var(--t-short) var(--ease), box-shadow var(--t-short) var(--ease);
+  transition: border-color var(--t-hover) var(--ease-hover), box-shadow var(--t-hover) var(--ease-hover);
 }
 .ez-filter:focus-within { border-color: var(--md-sys-color-primary); box-shadow: 0 0 0 1px var(--md-sys-color-primary); }
 .ez-filter input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; color: var(--md-sys-color-on-surface); font: 400 14px/20px var(--md-ref-typeface-plain); }
@@ -478,16 +485,16 @@ html, body {
   border: 0; background: none; padding: 4px 6px; margin-left: -6px;
   border-radius: 6px;
   color: inherit; font: inherit; cursor: pointer;
-  transition: background-color var(--t-short) var(--ease), color var(--t-short) var(--ease);
+  transition: background-color var(--t-hover) var(--ease-hover), color var(--t-hover) var(--ease-hover);
 }
 .ez-sort:hover { background: var(--hover); color: var(--md-sys-color-on-surface); }
-.ez-sort md-icon { --md-icon-size: 16px; opacity: .45; transition: opacity var(--t-short) var(--ease), transform var(--t-med) var(--ease); }
+.ez-sort md-icon { --md-icon-size: 16px; opacity: .45; transition: opacity var(--t-hover) var(--ease-hover), transform var(--t-med) var(--ease); }
 .ez-sort.is-asc md-icon, .ez-sort.is-desc md-icon { opacity: 1; color: var(--md-sys-color-primary); }
 .ez-sort.is-desc md-icon { transform: rotate(180deg); }
-.ez-row { height: 56px; transition: background-color var(--t-short) var(--ease); }
+.ez-row { height: 56px; transition: background-color var(--t-hover) var(--ease-hover); }
 .ez-row + .ez-row { box-shadow: inset 0 1px 0 var(--rule); }
 .ez-row:hover { background: var(--hover); }
-.ez-pin { --md-icon-button-icon-color: var(--sub); opacity: 0; transition: opacity var(--t-short) var(--ease); }
+.ez-pin { --md-icon-button-icon-color: var(--sub); opacity: 0; transition: opacity var(--t-hover) var(--ease-hover); }
 .ez-row:hover .ez-pin, .ez-pin:focus-within, .ez-pin.is-on { opacity: 1; }
 .ez-pin.is-on { --md-icon-button-icon-color: var(--md-sys-color-primary); }
 .ez-pin.is-on md-icon { font-variation-settings: 'FILL' 1; }
@@ -511,7 +518,7 @@ html, body {
   background: var(--md-sys-color-surface-container);
   color: var(--md-sys-color-on-surface);
   font: 400 14px/20px var(--md-ref-typeface-plain);
-  transition: background-color var(--t-short) var(--ease), border-color var(--t-short) var(--ease);
+  transition: background-color var(--t-hover) var(--ease-hover), border-color var(--t-hover) var(--ease-hover);
 }
 .ez-input::placeholder { color: var(--sub); }
 .ez-input:hover { background: var(--md-sys-color-surface-container-high); }
