@@ -639,3 +639,20 @@ md-dialog { --md-dialog-container-color: var(--md-sys-color-surface-container-hi
   background: var(--md-sys-color-secondary-container);
   color: var(--md-sys-color-on-secondary-container);
 }
+
+/* Call on a new lead: the one action that card exists for, so it takes the
+   strongest neutral there is — inverse-surface, dark grey in B2C. In B2B it
+   flips to a light button, since dark grey on a dark card would vanish. */
+.call-btn {
+  --md-filled-tonal-button-container-color: var(--md-sys-color-inverse-surface);
+  --md-filled-tonal-button-label-text-color: var(--md-sys-color-inverse-on-surface);
+  --md-filled-tonal-button-icon-color: var(--md-sys-color-inverse-on-surface);
+  --md-filled-tonal-button-hover-label-text-color: var(--md-sys-color-inverse-on-surface);
+  --md-filled-tonal-button-hover-icon-color: var(--md-sys-color-inverse-on-surface);
+  --md-filled-tonal-button-focus-label-text-color: var(--md-sys-color-inverse-on-surface);
+  --md-filled-tonal-button-focus-icon-color: var(--md-sys-color-inverse-on-surface);
+  --md-filled-tonal-button-pressed-label-text-color: var(--md-sys-color-inverse-on-surface);
+  --md-filled-tonal-button-pressed-icon-color: var(--md-sys-color-inverse-on-surface);
+  --md-filled-tonal-button-hover-state-layer-color: var(--md-sys-color-inverse-on-surface);
+  --md-filled-tonal-button-pressed-state-layer-color: var(--md-sys-color-inverse-on-surface);
+}

@@ -388,7 +388,7 @@ function boardCard(d) {
       <div class="card__foot">
         ${avatar(d.assigned[0])}
         <span class="spacer"></span>
-        ${fresh ? `<md-filled-tonal-button data-act="call">${ic('call', 'slot="icon"')}Call</md-filled-tonal-button>` : ''}
+        ${fresh ? `<md-filled-tonal-button class="call-btn" data-act="call">${ic('call', 'slot="icon"')}Call</md-filled-tonal-button>` : ''}
         ${d.snoozed ? `<md-icon-button data-act="more" aria-label="More actions for ${esc(d.name)}">${ic('more_vert')}</md-icon-button>` : actions(d)}
       </div>
     </article>`;
