@@ -3,59 +3,118 @@
 Static 1920×1080 mock-ups built on the design system in the Figma file
 **CRM-2026** (page: `↪️ Design System`).
 
-## Material 3 fork
+## Material 3 versions (this fork)
 
-This fork rebuilds the visual layer on **Material 3**, with the LoanOptions
-brand colours applied through M3's colour roles. The screens, data and
-behaviour are unchanged; only how they look.
+This fork adds three **M3** screens: the same deals, rebuilt in stock
+**Material 3** with only the LoanOptions brand colours applied. They are new
+screens, not a restyle — the original versions are untouched and sit beside
+them in each prototype view for comparison.
 
-**Audiences.** LoanOptions runs light for B2C and dark for B2B. Both are
-here, switched by `html[data-audience="b2c" | "b2b"]`:
+| Page | |
+|---|---|
+| `worklist-m3.html` | Work list — tab **M3 · Work list** in `index.html` (opens on it) |
+| `kanban-m3.html` | Board — tab **M3 · Board** in `kanban.html` (opens on it) |
+| `easyview-m3.html` | Easy View — tab **M3 · Easy View** in `index.html` |
+
+The List / Board / Easy View switch in the top bar moves between the three,
+and the view, filters, search and sort carry across.
+
+**Hierarchy** follows the brokers' own priority list. On a card or row, most
+important first: who · how much · what's next (red when overdue) · where it's
+at · who referred it · whose it is · days in stage · documents · source and
+reference (lowest). Three text levels only: primary, secondary (`--sub`),
+and 11px for reference and source. `--sub` is deliberately light — about
+3.8:1 in B2C, under WCAG AA for small text; raise it to 80% in
+`css/m3-app.css` to get back to AA.
+
+**What jumps out**, and nothing else does:
+
+| Signal | Treatment |
+|---|---|
+| New lead | `New · 4 min ago` chip, brand container |
+| New lead not called within 15 min | `Not called · 22 min` chip, error container |
+| Overdue | The next action turns error-red and medium weight |
+| Documents uploaded, waiting to be checked | `2 to check` chip; hover or focus names the documents |
+| Rejected documents | `1 rejected` chip; hover or focus names each document and why |
+| Possible duplicate | `Possible duplicate` chip, warning container |
+
+Pipeline stages are named, never coloured. Other people's avatars are grey.
+
+**What works** (it is still a prototype — nothing is saved to a server):
+
+- Views in one click, with live counts: my deals, my team, needs attention,
+  new today, overdue, waiting on customer, waiting on lender, settling this
+  week, documents to review. **Saved views** holds a saved view and sets the
+  default view.
+- Search by name, phone, email, reference or ABN (`/` focuses it). Contact
+  details are mocked in `js/m3-app.js` because the model has none yet.
+- **Filters** side sheet: broker, stage, consumer or commercial, loan type,
+  source, partner or partner group, amount, created date. Several at once,
+  applied instantly.
+- **Sort**: newest, oldest, last activity, amount, next follow-up. Stable —
+  the order only changes when the sort does.
+- **New lead** from anywhere (button, or `N`) — the lead lands in New leads.
+- Board: call, SMS, email and a quick menu (request documents, privacy form,
+  note, task, move stage, snooze) on every card; the card is a real link, so
+  click opens the deal and ⌘/Ctrl- or middle-click opens a new tab; **drag
+  cards between stages**, with Undo.
+- List: **choose columns**; select deals for **bulk** reassign, move stage,
+  message or add task.
+- Easy View: your deals only, pin to top, a private note and last-contact
+  date per row (kept in localStorage), name filter, status filter, sortable
+  headers with Reset, paging.
+
+**Motion.** Everything that changes on hover fades on M3's standard easing
+(200ms); sheets, menus, tooltips and the snackbar come in on
+emphasized-decelerate. Re-renders (filtering, sorting, dragging) use the View
+Transitions API, so cards and rows glide to their new places, and List /
+Board / Easy View crossfade. Material Web's ripple ships with a 15ms hover,
+which reads as instant; the vendored bundle is patched to 200ms — see
+`js/vendor/README.md`.
+
+**Components** are Google's Material Web (`@material/web` 2.5.0), bundled into
+`js/vendor/material-web-2.5.0.js`. It has no navigation rail, top app bar,
+search bar, data table, side sheet, snackbar or rich tooltip, so those are
+built in `css/m3-app.css` to the M3 spec. **Type** is Geist on the M3 type
+scale, with the page heading alone in the brand face, Articulat CF DemiBold;
+icons are Material Symbols. Geist and the icons load from Google Fonts.
+
+**The colours.** `css/m3.css` is generated with Google's
+material-color-utilities (the engine behind the Material Theme Builder),
+fidelity variant, with the brand's core colours as key colours — primary
+`#5614BB`, secondary `#2F0273`, tertiary `#F33829` — and neutrals tinted from
+the primary hue. Three roles are pinned to brand values, each marked `brand`
+in the file. Success and warning come from the brand's semantic tables. The
+Tailwind-style 50–950 scales sit at the top of the same file.
+
+**Audiences.** B2C is light, B2B is dark, switched by
+`html[data-audience="b2c" | "b2b"]`:
 
 | | |
 |---|---|
-| Prototype view | **B2C · Light / B2B · Dark** in the toolbar, or press `A`. Every open frame flips live, both panes of a compare included |
-| A single page | `?aud=b2b` on the URL, e.g. `/kanban-v1.html?aud=b2b` |
+| Prototype view | **B2C · Light / B2B · Dark** in the toolbar, or press `A`. Open frames flip live |
+| A single page | `?aud=b2b` on the URL, e.g. `/kanban-m3.html?aud=b2b` |
 | Otherwise | The last choice, from localStorage; B2C if there is none |
 
-**Brand purple is universal.** `#5614BB` fills the brand surfaces (filled
-buttons, the mark, checked boxes) identically in both audiences. Purple used
-as *ink* (text, icons, outlines) steps up to primary-200 `#D1B4FC` in B2B,
-because `#5614BB` on a dark ground is 2.2:1. That is what M3's own dark
-schemes do (tone 80).
+The original versions are light only; the switch does nothing to them.
+Brand purple stays the filled-button and checkbox fill in both audiences.
 
-**Where it lives**
+**Other files**
 
 | File | |
 |---|---|
-| `css/m3.css` | Loaded right after `tokens.css`. Tailwind-style 50–950 scales for primary, secondary, tertiary and neutral; the M3 roles (`--md-sys-color-*`) for each audience; M3 shape, elevation, state, motion and type tokens; and a bridge that re-points the prototype's own tokens (`--bg-*`, `--text-*`, `--border-*`, the status sets) at those roles, so the existing stylesheets follow the audience untouched |
-| `css/m3-components.css` | Loaded **last**, because the screen stylesheets set the same properties at the same specificity. The M3 component treatment: filled / outlined / text buttons, segmented buttons, chips, outlined fields, M3 checkboxes, cards, the search bar, focus rings and state layers |
+| `js/m3-app.js` | Renders all three M3 screens from `js/data.js` |
 | `js/audience.js` | Sets `data-audience` before first paint, and listens for the toggle |
-| `tailwind/theme.css` | The same scales and roles as a Tailwind v4 `@theme`, for the real build. `bg-primary-500` is a fixed scale step; `bg-m3-surface-container` is a role and flips with the audience |
-
-**The scales.** Every step the brand defined is kept verbatim (primary
-100–900, neutral 100–900, the semantic tables in light and dark). The rest
-is generated in HCT from the core colour so it shares its hue and chroma:
-primary 50 / 950, all of secondary (core `#2F0273` at 800) and tertiary
-(core `#F33829` at 500), and the neutral steps below 900 that dark surfaces
-need.
-
-**What changed in the screens' own files**, beyond the two new stylesheets:
-the few literal colours that could only ever be light (the application
-view's greys, the kanban card fills, the document-box tints and the five
-pipeline-stage tints in `js/data.js`) now point at tokens, and the contact
-icon gradient takes its stops from a token so it can lift in B2B.
+| `tailwind/theme.css` | The scales and M3 roles as a Tailwind v4 `@theme`, for the real build |
 
 **Known gaps**
 
-- The stage path in the application view is still a PNG. B2B darkens it
-  with a filter, which is close but not exact. Rebuilding it in CSS fixes it.
-- Tertiary `#F33829` sits right next to error `#D92D20`. In a CRM, where red
-  already means overdue, tertiary is defined but deliberately not used on
-  any UI; treat it as a marketing accent.
-- Weights moved to M3's 400 / 500. Articulat regular at 12px is lighter than
-  the old 500. If that reads too thin, set `--weight-medium` back to 500 in
-  `css/m3.css` (one line).
+- Opening a deal goes to the original application view (`screen2-v1.html`);
+  there is no M3 deal screen yet.
+- Bulk actions, quick-menu actions, saving a view and contact buttons answer
+  with a snackbar but change nothing. Moving a stage (drag or menu) does
+  change the board, until reload.
+- Tertiary `#F33829` sits next to error red, so it is defined but unused.
 
 No Python? `node serve.mjs` and `node stamp.mjs` do the same jobs as
 `serve.py` and `stamp.py`.

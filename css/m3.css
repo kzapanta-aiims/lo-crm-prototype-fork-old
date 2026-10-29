@@ -1,444 +1,216 @@
 /* ==========================================================================
-   LoanOptions CRM — Material 3 layer
+   LoanOptions — Material 3 theme
    --------------------------------------------------------------------------
-   Loaded straight after tokens.css on every page. It does three things, in
-   this order:
+   Stock Material 3, with only the LoanOptions brand colours fed in. Used by
+   the M3 versions (worklist-m3.html, kanban-m3.html); the original versions
+   do not load it and look exactly as they did.
 
-     1. Scales      Tailwind-style 50–950 ramps for each core colour.
-     2. Roles       M3 system colours (--md-sys-color-*), one set per audience:
-                      B2C → light  (html[data-audience="b2c"], the default)
-                      B2B → dark   (html[data-audience="b2b"])
-                    plus M3 shape, elevation, state, motion and type tokens.
-     3. Bridge      The prototype's own tokens (--bg-*, --text-*, --border-*,
-                    --brand-*, --neutral-*) re-pointed at the roles, so every
-                    existing stylesheet follows the audience without edits.
-     4. Components  live in css/m3-components.css, loaded last — see there.
+   How the colours were made: the M3 scheme is generated with Google's
+   material-color-utilities (the engine behind the Material Theme Builder),
+   variant "fidelity", with the brand's three core colours as the three key
+   colours —
 
-   Brand purple (#5614BB) is universal: it fills the brand surfaces (filled
-   buttons, the mark, selected checkboxes) identically in both audiences.
-   What changes with the audience is purple used as *ink* — text, icons and
-   outlines. On a dark ground #5614BB is 2.2:1, so B2B ink steps up the
-   ramp to primary-200, the way M3's own dark schemes do (tone 80).
+       primary   #5614BB      secondary #2F0273      tertiary #F33829
+
+   and neutrals tinted from the primary's hue, which is what gives M3 its
+   faintly lavender greys. Three roles are then pinned to brand values the
+   generator would otherwise shift, each marked "brand" below.
+
+   Audience:  B2C → light (default, or html[data-audience="b2c"])
+              B2B → dark  (html[data-audience="b2b"])
+   Brand purple is universal: #5614BB is the filled-button and FAB fill in
+   both. In dark it is primary-container, which is where M3 itself puts
+   the source colour in a fidelity scheme.
    ========================================================================== */
 
 
-/* ==========================================================================
-   1. Scales
-   --------------------------------------------------------------------------
-   Every step the brand defined is kept verbatim; the steps it did not
-   define (50, 950, the tertiary and secondary ramps) are generated in HCT
-   from the core colour, so they share its hue and chroma.
-   ========================================================================== */
+/* ---------- Brand scales (Tailwind 50–950) --------------------------------
+   Every step the brand defined is kept verbatim; the rest are generated in
+   HCT from the core colour. These never change with the audience. */
 
 :root {
-  /* Primary — core #5614BB at 500 */
-  --lo-primary-50:  #FCFAFF;
-  --lo-primary-100: #F9F4FF;
-  --lo-primary-200: #D1B4FC;
-  --lo-primary-300: #A574F1;
-  --lo-primary-400: #7A39DE;
-  --lo-primary-500: #5614BB;
-  --lo-primary-600: #470AA5;
-  --lo-primary-700: #2F0273;
-  --lo-primary-800: #1E0149;
-  --lo-primary-900: #0C001F;
-  --lo-primary-950: #060010;
+  --lo-primary-50:  #FCFAFF;  --lo-primary-100: #F9F4FF;  --lo-primary-200: #D1B4FC;
+  --lo-primary-300: #A574F1;  --lo-primary-400: #7A39DE;  --lo-primary-500: #5614BB;
+  --lo-primary-600: #470AA5;  --lo-primary-700: #2F0273;  --lo-primary-800: #1E0149;
+  --lo-primary-900: #0C001F;  --lo-primary-950: #060010;
 
-  /* Secondary — core #2F0273 at 800. Same hue as primary, lower chroma. */
-  --lo-secondary-50:  #FBF4FF;
-  --lo-secondary-100: #F6EDFF;
-  --lo-secondary-200: #E9DDFF;
-  --lo-secondary-300: #D1BCFF;
-  --lo-secondary-400: #B89BFF;
-  --lo-secondary-500: #8365CA;
-  --lo-secondary-600: #6A4CAF;
-  --lo-secondary-700: #513295;
-  --lo-secondary-800: #2F0273;
-  --lo-secondary-900: #23005B;
-  --lo-secondary-950: #170040;
+  --lo-secondary-50:  #FBF4FF; --lo-secondary-100: #F6EDFF; --lo-secondary-200: #E9DDFF;
+  --lo-secondary-300: #D1BCFF; --lo-secondary-400: #B89BFF; --lo-secondary-500: #8365CA;
+  --lo-secondary-600: #6A4CAF; --lo-secondary-700: #513295; --lo-secondary-800: #2F0273;
+  --lo-secondary-900: #23005B; --lo-secondary-950: #170040;
 
-  /* Tertiary — core #F33829 at 500 */
-  --lo-tertiary-50:  #FFF4F2;
-  --lo-tertiary-100: #FFEDEA;
-  --lo-tertiary-200: #FFDAD5;
-  --lo-tertiary-300: #FFB4A9;
-  --lo-tertiary-400: #FF8A79;
-  --lo-tertiary-500: #F33829;
-  --lo-tertiary-600: #D11D14;
-  --lo-tertiary-700: #AE0003;
-  --lo-tertiary-800: #8B0001;
-  --lo-tertiary-900: #690001;
-  --lo-tertiary-950: #490000;
+  --lo-tertiary-50:  #FFF4F2;  --lo-tertiary-100: #FFEDEA;  --lo-tertiary-200: #FFDAD5;
+  --lo-tertiary-300: #FFB4A9;  --lo-tertiary-400: #FF8A79;  --lo-tertiary-500: #F33829;
+  --lo-tertiary-600: #D11D14;  --lo-tertiary-700: #AE0003;  --lo-tertiary-800: #8B0001;
+  --lo-tertiary-900: #690001;  --lo-tertiary-950: #490000;
 
-  /* Neutral — the brand's greys at 100–900; 50 and 950 extend them.
-     The dark surfaces (B2B) need tones below 900, so they get their own
-     steps here rather than borrowing a near-black from elsewhere. */
-  --lo-neutral-0:   #FFFFFF;
-  --lo-neutral-50:  #FBFBFC;
-  --lo-neutral-100: #F8F9FA;
-  --lo-neutral-150: #F1F3F5;
-  --lo-neutral-200: #E9ECEF;
-  --lo-neutral-300: #DEE2E6;
-  --lo-neutral-400: #CED4DA;
-  --lo-neutral-500: #ADB5BD;
-  --lo-neutral-600: #6C757D;
-  --lo-neutral-700: #495057;
-  --lo-neutral-800: #343A40;
-  --lo-neutral-850: #2A2F34;
-  --lo-neutral-900: #212529;
-  --lo-neutral-925: #1B1E21;
-  --lo-neutral-950: #141619;
-  --lo-neutral-975: #0E1012;
-
-  /* Semantic — straight from the brand's semantic tables */
-  --lo-success-light-bg: #D1FADF; --lo-success-light-border: #32D583;
-  --lo-success-light-text: #027A48; --lo-success-light-base: #12B76A;
-  --lo-success-dark-bg: #102A24;  --lo-success-dark-border: #12B76A;
-  --lo-success-dark-text: #D1FADF; --lo-success-dark-base: #32D583;
-
-  --lo-warning-light-bg: #FEF0C7; --lo-warning-light-border: #FEC84B;
-  --lo-warning-light-text: #B54708; --lo-warning-light-base: #F79009;
-  --lo-warning-dark-bg: #332613;  --lo-warning-dark-border: #F79009;
-  --lo-warning-dark-text: #FEF0C7; --lo-warning-dark-base: #FEC84B;
-
-  --lo-error-light-bg: #FEE2E2;   --lo-error-light-border: #F04438;
-  --lo-error-light-text: #B42318; --lo-error-light-base: #D92D20;
-  --lo-error-dark-bg: #3B1212;    --lo-error-dark-border: #D92D20;
-  --lo-error-dark-text: #FEE2E2;  --lo-error-dark-base: #F04438;
-
-  /* Info was not in the brand tables; generated from the existing #3749A6. */
-  --lo-info-light-bg: #EEF1FB;    --lo-info-light-border: #8C9BD8;
-  --lo-info-light-text: #2A3880;  --lo-info-light-base: #3749A6;
-  --lo-info-dark-bg: #151C3D;     --lo-info-dark-border: #4556B4;
-  --lo-info-dark-text: #DEE0FF;   --lo-info-dark-base: #96A5FF;
+  --lo-neutral-50:  #FBFBFC;   --lo-neutral-100: #F8F9FA;   --lo-neutral-200: #E9ECEF;
+  --lo-neutral-300: #DEE2E6;   --lo-neutral-400: #CED4DA;   --lo-neutral-500: #ADB5BD;
+  --lo-neutral-600: #6C757D;   --lo-neutral-700: #495057;   --lo-neutral-800: #343A40;
+  --lo-neutral-900: #212529;   --lo-neutral-950: #141619;
 }
 
 
-/* ==========================================================================
-   2. Roles
-   ========================================================================== */
-
-/* ---------- B2C · light (default) ---------------------------------------- */
+/* ---------- B2C · light --------------------------------------------------- */
 
 :root,
 [data-audience="b2c"] {
   color-scheme: light;
 
-  /* Universal brand fill — identical in both audiences */
-  --md-sys-color-brand:    var(--lo-primary-500);
-  --md-sys-color-on-brand: #FFFFFF;
+  --md-sys-color-primary: #5614BB;                 /* brand — generator gave #3C008D */
+  --md-sys-color-on-primary: #FFFFFF;
+  --md-sys-color-primary-container: #EADDFF;       /* brand — tone 90 of #5614BB */
+  --md-sys-color-on-primary-container: #2F0273;    /* brand secondary */
+  --md-sys-color-secondary: #64597C;
+  --md-sys-color-on-secondary: #FFFFFF;
+  --md-sys-color-secondary-container: #E4D6FF;
+  --md-sys-color-on-secondary-container: #2F0273;  /* brand secondary */
+  --md-sys-color-tertiary: #BF0807;
+  --md-sys-color-on-tertiary: #FFFFFF;
+  --md-sys-color-tertiary-container: #FFDAD5;
+  --md-sys-color-on-tertiary-container: #930002;
+  --md-sys-color-error: #B42318;                   /* brand semantic table */
+  --md-sys-color-on-error: #FFFFFF;
+  --md-sys-color-error-container: #FEE2E2;
+  --md-sys-color-on-error-container: #B42318;
+  --md-sys-color-background: #FEF7FF;
+  --md-sys-color-on-background: #1D1B20;
+  --md-sys-color-surface: #FEF7FF;
+  --md-sys-color-surface-dim: #DED8E0;
+  --md-sys-color-surface-bright: #FEF7FF;
+  --md-sys-color-surface-container-lowest: #FFFFFF;
+  --md-sys-color-surface-container-low: #F8F1FA;
+  --md-sys-color-surface-container: #F2ECF4;
+  --md-sys-color-surface-container-high: #ECE6EE;
+  --md-sys-color-surface-container-highest: #E7E0E8;
+  --md-sys-color-on-surface: #1D1B20;
+  --md-sys-color-surface-variant: #E7E0EE;
+  --md-sys-color-on-surface-variant: #494550;
+  --md-sys-color-outline: #7A7582;
+  --md-sys-color-outline-variant: #CBC4D2;
+  --md-sys-color-inverse-surface: #322F35;
+  --md-sys-color-inverse-on-surface: #F5EFF7;
+  --md-sys-color-inverse-primary: #D1BCFF;
+  --md-sys-color-scrim: #000000;
+  --md-sys-color-shadow: #000000;
+  --md-sys-color-surface-tint: #5614BB;
 
-  --md-sys-color-primary:              var(--lo-primary-500);
-  --md-sys-color-on-primary:           #FFFFFF;
-  --md-sys-color-primary-container:    #EADDFF;
-  --md-sys-color-on-primary-container: var(--lo-primary-700);
-
-  --md-sys-color-secondary:              var(--lo-secondary-800);
-  --md-sys-color-on-secondary:           #FFFFFF;
-  --md-sys-color-secondary-container:    #EDE4FA;
-  --md-sys-color-on-secondary-container: var(--lo-secondary-800);
-
-  --md-sys-color-tertiary:              var(--lo-tertiary-600);
-  --md-sys-color-on-tertiary:           #FFFFFF;
-  --md-sys-color-tertiary-container:    var(--lo-tertiary-200);
-  --md-sys-color-on-tertiary-container: var(--lo-tertiary-800);
-
-  --md-sys-color-error:              var(--lo-error-light-text);
-  --md-sys-color-on-error:           #FFFFFF;
-  --md-sys-color-error-container:    var(--lo-error-light-bg);
-  --md-sys-color-on-error-container: var(--lo-error-light-text);
-
-  --md-sys-color-surface:                   var(--lo-neutral-50);
-  --md-sys-color-surface-dim:               var(--lo-neutral-300);
-  --md-sys-color-surface-bright:            var(--lo-neutral-0);
-  --md-sys-color-surface-container-lowest:  var(--lo-neutral-0);
-  --md-sys-color-surface-container-low:     var(--lo-neutral-100);
-  --md-sys-color-surface-container:         var(--lo-neutral-150);
-  --md-sys-color-surface-container-high:    var(--lo-neutral-200);
-  --md-sys-color-surface-container-highest: var(--lo-neutral-300);
-  --md-sys-color-on-surface:                var(--lo-neutral-900);
-  --md-sys-color-on-surface-variant:        var(--lo-neutral-700);
-  --md-sys-color-outline:                   var(--lo-neutral-600);
-  --md-sys-color-outline-variant:           var(--lo-neutral-400);
-  --md-sys-color-inverse-surface:           var(--lo-neutral-800);
-  --md-sys-color-inverse-on-surface:        var(--lo-neutral-100);
-  --md-sys-color-inverse-primary:           var(--lo-primary-200);
-  --md-sys-color-scrim:                     #000000;
-  --md-sys-color-shadow:                    #000000;
-
-  /* Extended (custom) colours, M3 "custom colour" pattern */
-  --md-ext-success: var(--lo-success-light-base);   --md-ext-on-success-container: var(--lo-success-light-text);
-  --md-ext-success-container: var(--lo-success-light-bg); --md-ext-success-outline: var(--lo-success-light-border);
-  --md-ext-warning: var(--lo-warning-light-base);   --md-ext-on-warning-container: var(--lo-warning-light-text);
-  --md-ext-warning-container: var(--lo-warning-light-bg); --md-ext-warning-outline: var(--lo-warning-light-border);
-  --md-ext-error:   var(--lo-error-light-base);     --md-ext-on-error-container: var(--lo-error-light-text);
-  --md-ext-error-container: var(--lo-error-light-bg);     --md-ext-error-outline: var(--lo-error-light-border);
-  --md-ext-info:    var(--lo-info-light-base);      --md-ext-on-info-container: var(--lo-info-light-text);
-  --md-ext-info-container: var(--lo-info-light-bg);       --md-ext-info-outline: var(--lo-info-light-border);
-
-  /* M3 elevation — light uses shadow */
-  --md-sys-elevation-1: 0 1px 2px rgba(0,0,0,.30), 0 1px 3px 1px rgba(0,0,0,.15);
-  --md-sys-elevation-2: 0 1px 2px rgba(0,0,0,.30), 0 2px 6px 2px rgba(0,0,0,.15);
-  --md-sys-elevation-3: 0 1px 3px rgba(0,0,0,.30), 0 4px 8px 3px rgba(0,0,0,.15);
-  --md-sys-elevation-4: 0 2px 3px rgba(0,0,0,.30), 0 6px 10px 4px rgba(0,0,0,.15);
-  --md-sys-elevation-5: 0 4px 4px rgba(0,0,0,.30), 0 8px 12px 6px rgba(0,0,0,.15);
+  /* Extended colours (M3 "custom colour" pattern) from the brand's semantic
+     tables. M3 has no success or warning role of its own. */
+  --lo-success: #027A48;  --lo-success-container: #D1FADF;  --lo-on-success-container: #027A48;
+  --lo-warning: #B54708;  --lo-warning-container: #FEF0C7;  --lo-on-warning-container: #B54708;
 }
 
-/* ---------- B2B · dark --------------------------------------------------- */
+
+/* ---------- B2B · dark ---------------------------------------------------- */
 
 [data-audience="b2b"] {
   color-scheme: dark;
 
-  --md-sys-color-brand:    var(--lo-primary-500);
-  --md-sys-color-on-brand: #FFFFFF;
-
-  --md-sys-color-primary:              var(--lo-primary-200);
-  --md-sys-color-on-primary:           var(--lo-primary-700);
-  --md-sys-color-primary-container:    var(--lo-primary-500);
+  --md-sys-color-primary: #D1BCFF;
+  --md-sys-color-on-primary: #3D008F;
+  --md-sys-color-primary-container: #5614BB;       /* brand — universal */
   --md-sys-color-on-primary-container: #EADDFF;
+  --md-sys-color-secondary: #CEC0E8;
+  --md-sys-color-on-secondary: #352B4B;
+  --md-sys-color-secondary-container: #4B4163;
+  --md-sys-color-on-secondary-container: #E9DDFF;
+  --md-sys-color-tertiary: #FFB4A9;
+  --md-sys-color-on-tertiary: #690001;
+  --md-sys-color-tertiary-container: #910002;
+  --md-sys-color-on-tertiary-container: #FFDAD5;
+  --md-sys-color-error: #F97066;                   /* brand semantic, lifted for dark text */
+  --md-sys-color-on-error: #3B1212;
+  --md-sys-color-error-container: #3B1212;
+  --md-sys-color-on-error-container: #FEE2E2;
+  --md-sys-color-background: #141218;
+  --md-sys-color-on-background: #E7E0E8;
+  --md-sys-color-surface: #141218;
+  --md-sys-color-surface-dim: #141218;
+  --md-sys-color-surface-bright: #3B383E;
+  --md-sys-color-surface-container-lowest: #0F0D13;
+  --md-sys-color-surface-container-low: #1D1B20;
+  --md-sys-color-surface-container: #211F24;
+  --md-sys-color-surface-container-high: #2B292F;
+  --md-sys-color-surface-container-highest: #36343A;
+  --md-sys-color-on-surface: #E7E0E8;
+  --md-sys-color-surface-variant: #494550;
+  --md-sys-color-on-surface-variant: #CBC4D2;
+  --md-sys-color-outline: #948E9C;
+  --md-sys-color-outline-variant: #494550;
+  --md-sys-color-inverse-surface: #E7E0E8;
+  --md-sys-color-inverse-on-surface: #322F35;
+  --md-sys-color-inverse-primary: #5614BB;
+  --md-sys-color-scrim: #000000;
+  --md-sys-color-shadow: #000000;
+  --md-sys-color-surface-tint: #D1BCFF;
 
-  --md-sys-color-secondary:              #CCC2DB;
-  --md-sys-color-on-secondary:           #342D41;
-  --md-sys-color-secondary-container:    #3B3447;
-  --md-sys-color-on-secondary-container: #E9DEF8;
-
-  --md-sys-color-tertiary:              var(--lo-tertiary-300);
-  --md-sys-color-on-tertiary:           var(--lo-tertiary-900);
-  --md-sys-color-tertiary-container:    var(--lo-tertiary-800);
-  --md-sys-color-on-tertiary-container: var(--lo-tertiary-200);
-
-  --md-sys-color-error:              var(--lo-error-dark-base);
-  --md-sys-color-on-error:           var(--lo-error-dark-bg);
-  --md-sys-color-error-container:    var(--lo-error-dark-bg);
-  --md-sys-color-on-error-container: var(--lo-error-dark-text);
-
-  --md-sys-color-surface:                   var(--lo-neutral-950);
-  --md-sys-color-surface-dim:               var(--lo-neutral-950);
-  --md-sys-color-surface-bright:            #383D42;
-  --md-sys-color-surface-container-lowest:  var(--lo-neutral-975);
-  --md-sys-color-surface-container-low:     var(--lo-neutral-925);
-  --md-sys-color-surface-container:         var(--lo-neutral-900);
-  --md-sys-color-surface-container-high:    var(--lo-neutral-850);
-  --md-sys-color-surface-container-highest: var(--lo-neutral-800);
-  --md-sys-color-on-surface:                var(--lo-neutral-200);
-  --md-sys-color-on-surface-variant:        var(--lo-neutral-400);
-  --md-sys-color-outline:                   #8B939B;
-  --md-sys-color-outline-variant:           #3E454B;
-  --md-sys-color-inverse-surface:           var(--lo-neutral-200);
-  --md-sys-color-inverse-on-surface:        var(--lo-neutral-800);
-  --md-sys-color-inverse-primary:           var(--lo-primary-500);
-
-  --md-ext-success: var(--lo-success-dark-base);   --md-ext-on-success-container: var(--lo-success-dark-text);
-  --md-ext-success-container: var(--lo-success-dark-bg); --md-ext-success-outline: var(--lo-success-dark-border);
-  --md-ext-warning: var(--lo-warning-dark-base);   --md-ext-on-warning-container: var(--lo-warning-dark-text);
-  --md-ext-warning-container: var(--lo-warning-dark-bg); --md-ext-warning-outline: var(--lo-warning-dark-border);
-  --md-ext-error:   var(--lo-error-dark-base);     --md-ext-on-error-container: var(--lo-error-dark-text);
-  --md-ext-error-container: var(--lo-error-dark-bg);     --md-ext-error-outline: var(--lo-error-dark-border);
-  --md-ext-info:    var(--lo-info-dark-base);      --md-ext-on-info-container: var(--lo-info-dark-text);
-  --md-ext-info-container: var(--lo-info-dark-bg);       --md-ext-info-outline: var(--lo-info-dark-border);
-
-  /* Dark grounds swallow a soft shadow, so elevation leans on the tonal
-     surface steps and the shadows get heavier to still read at the edge. */
-  --md-sys-elevation-1: 0 1px 2px rgba(0,0,0,.55), 0 1px 3px 1px rgba(0,0,0,.30);
-  --md-sys-elevation-2: 0 1px 2px rgba(0,0,0,.55), 0 2px 6px 2px rgba(0,0,0,.30);
-  --md-sys-elevation-3: 0 1px 3px rgba(0,0,0,.55), 0 4px 8px 3px rgba(0,0,0,.35);
-  --md-sys-elevation-4: 0 2px 3px rgba(0,0,0,.55), 0 6px 10px 4px rgba(0,0,0,.35);
-  --md-sys-elevation-5: 0 4px 4px rgba(0,0,0,.55), 0 8px 12px 6px rgba(0,0,0,.35);
+  --lo-success: #6CE9A6;  --lo-success-container: #102A24;  --lo-on-success-container: #D1FADF;
+  --lo-warning: #FEC84B;  --lo-warning-container: #332613;  --lo-on-warning-container: #FEF0C7;
 }
 
-/* ---------- Shape, state, motion, type ----------------------------------- */
+
+/* ---------- Type, shape, motion -------------------------------------------
+   Geist on M3's type scale for everything, loaded from Google Fonts by each
+   M3 page. The page heading alone is the brand face, Articulat CF DemiBold
+   (--lo-typeface-heading). Roboto, M3's default, is a one-line swap back:
+   point the two typeface tokens at it. */
+
+@font-face { font-family: 'Articulat CF'; font-weight: 400; font-display: swap;
+  src: local('Articulat CF Regular'), url('../assets/fonts/ArticulatCF-Regular.otf') format('opentype'); }
+@font-face { font-family: 'Articulat CF'; font-weight: 500; font-display: swap;
+  src: local('Articulat CF Medium'), url('../assets/fonts/ArticulatCF-Medium.otf') format('opentype'); }
+@font-face { font-family: 'Articulat CF'; font-weight: 600; font-display: swap;
+  src: local('Articulat CF DemiBold'), url('../assets/fonts/ArticulatCF-DemiBold.otf') format('opentype'); }
+@font-face { font-family: 'Articulat CF'; font-weight: 700; font-display: swap;
+  src: local('Articulat CF Bold'), url('../assets/fonts/ArticulatCF-Bold.otf') format('opentype'); }
 
 :root {
-  --md-sys-shape-corner-none:        0;
+  --md-ref-typeface-brand: 'Geist', system-ui, sans-serif;
+  --md-ref-typeface-plain: 'Geist', system-ui, sans-serif;
+  /* The page heading alone keeps the brand face */
+  --lo-typeface-heading: 'Articulat CF', 'Geist', system-ui, sans-serif;
+
+  /* M3 motion. Everything that changes on hover or state fades on the
+     standard curve; things that arrive (sheets, menus, tooltips) come in on
+     emphasized-decelerate and leave on emphasized-accelerate. */
+  --md-sys-motion-easing-standard:              cubic-bezier(0.2, 0, 0, 1);
+  --md-sys-motion-easing-emphasized-decelerate: cubic-bezier(0.05, 0.7, 0.1, 1);
+  --md-sys-motion-easing-emphasized-accelerate: cubic-bezier(0.3, 0, 0.8, 0.15);
+  --md-sys-motion-duration-short:  200ms;
+  --md-sys-motion-duration-medium: 300ms;
+  --md-sys-motion-duration-long:   450ms;
+
   --md-sys-shape-corner-extra-small: 4px;
-  --md-sys-shape-corner-small:       8px;
-  --md-sys-shape-corner-medium:      12px;
-  --md-sys-shape-corner-large:       16px;
+  --md-sys-shape-corner-small: 8px;
+  --md-sys-shape-corner-medium: 12px;
+  --md-sys-shape-corner-large: 16px;
   --md-sys-shape-corner-extra-large: 28px;
-  --md-sys-shape-corner-full:        999px;
-
-  --md-sys-state-hover:   8%;
-  --md-sys-state-focus:   10%;
-  --md-sys-state-pressed: 10%;
-  --md-sys-state-dragged: 16%;
-
-  --md-sys-motion-easing-standard:   cubic-bezier(0.2, 0, 0, 1);
-  --md-sys-motion-easing-emphasized: cubic-bezier(0.05, 0.7, 0.1, 1);
-  --md-sys-motion-duration-short:    150ms;
-  --md-sys-motion-duration-medium:   250ms;
-
-  /* M3 type scale, set in the brand face. M3 only uses two weights for
-     UI text — 400 for body and titles at large sizes, 500 for labels and
-     small titles — and that is most of what makes text read as M3. */
-  --md-sys-typescale-font: var(--font-family);
-  --md-sys-typescale-headline-small:  400 24px/32px var(--font-family);
-  --md-sys-typescale-title-large:     400 22px/28px var(--font-family);
-  --md-sys-typescale-title-medium:    500 16px/24px var(--font-family);
-  --md-sys-typescale-title-small:     500 14px/20px var(--font-family);
-  --md-sys-typescale-body-large:      400 16px/24px var(--font-family);
-  --md-sys-typescale-body-medium:     400 14px/20px var(--font-family);
-  --md-sys-typescale-body-small:      400 12px/16px var(--font-family);
-  --md-sys-typescale-label-large:     500 14px/20px var(--font-family);
-  --md-sys-typescale-label-medium:    500 12px/16px var(--font-family);
-  --md-sys-typescale-label-small:     500 11px/16px var(--font-family);
+  --md-sys-shape-corner-full: 9999px;
 }
 
 
-/* ==========================================================================
-   3. Bridge — the prototype's tokens, re-pointed at the roles
-   --------------------------------------------------------------------------
-   Declared on both selectors so that it re-resolves under each audience:
-   a custom property that references another is computed where it is
-   declared, so the bridge has to live where the roles change.
-   ========================================================================== */
+/* ---------- Brand fill, universal ------------------------------------------
+   M3's filled button and FAB take primary / primary-container. In dark,
+   primary is a light lavender, so the filled button would stop being brand
+   purple. These component tokens hold it at #5614BB in both audiences. */
 
-:root,
-[data-audience="b2c"],
-[data-audience="b2b"] {
-  /* Weights: M3 runs on 400 / 500. The prototype's 500 body and 600 labels
-     step down one each; 700 stays for the few numbers that lead a card. */
-  --weight-regular: 400;
-  --weight-medium:  400;
-  --weight-demi:    500;
-  --weight-bold:    700;
-
-  /* Shape onto the M3 scale */
-  --radius-4:  var(--md-sys-shape-corner-extra-small);
-  --radius-6:  var(--md-sys-shape-corner-small);
-  --radius-8:  var(--md-sys-shape-corner-small);
-  --radius-10: var(--md-sys-shape-corner-medium);
-  --radius-12: var(--md-sys-shape-corner-medium);
-  --radius-16: var(--md-sys-shape-corner-large);
-
-  --elevation-card:    var(--md-sys-elevation-1);
-  --elevation-raised:  var(--md-sys-elevation-2);
-  --elevation-overlay: var(--md-sys-elevation-3);
-  --elevation-focus:   0 0 0 3px color-mix(in srgb, var(--md-sys-color-primary) 32%, transparent);
-
-  /* Backgrounds — the surface steps are per audience, below */
-  --bg-disabled:     color-mix(in srgb, var(--md-sys-color-on-surface) 12%, transparent);
-  --bg-brand:         var(--md-sys-color-brand);
-  --bg-brand-hover:   color-mix(in srgb, var(--md-sys-color-brand), var(--md-sys-color-on-brand) 8%);
-  --bg-brand-pressed: color-mix(in srgb, var(--md-sys-color-brand), var(--md-sys-color-on-brand) 12%);
-  --bg-brand-subtle:  var(--md-sys-color-secondary-container);
-  --bg-success:       var(--md-ext-success-container);
-  --bg-warning:       var(--md-ext-warning-container);
-  --bg-error:         var(--md-ext-error-container);
-  --bg-info:          var(--md-ext-info-container);
-
-  /* Text */
-  --text-primary:     var(--md-sys-color-on-surface);
-  --text-secondary:   var(--md-sys-color-on-surface-variant);
-  --text-tertiary:    color-mix(in srgb, var(--md-sys-color-on-surface-variant) 78%, var(--md-sys-color-outline));
-  --text-placeholder: var(--md-sys-color-outline);
-  --text-disabled:    color-mix(in srgb, var(--md-sys-color-on-surface) 38%, transparent);
-  --text-on-dark:     var(--md-sys-color-on-brand);
-  --text-on-light:    var(--lo-neutral-900);
-  --text-brand:       var(--md-sys-color-primary);
-  --text-brand-hover: color-mix(in srgb, var(--md-sys-color-primary), var(--md-sys-color-on-surface) 20%);
-  --text-success:     var(--md-ext-on-success-container);
-  --text-warning:     var(--md-ext-on-warning-container);
-  --text-error:       var(--md-ext-on-error-container);
-  --text-info:        var(--md-ext-on-info-container);
-
-  /* Borders */
-  --border-subtle:  color-mix(in srgb, var(--md-sys-color-outline-variant) 55%, transparent);
-  --border-default: var(--md-sys-color-outline-variant);
-  --border-muted:   var(--md-sys-color-outline-variant);
-  --border-brand:   var(--md-sys-color-primary);
-  --border-focus:   var(--md-sys-color-primary);
-  --border-error:   var(--md-ext-error-outline);
-  --border-warning: var(--md-ext-warning);
-
-  /* Status sets used directly by the screens */
-  --success-base: var(--md-ext-success);  --success-text: var(--md-ext-on-success-container);
-  --success-border: var(--md-ext-success-outline); --success-bg: var(--md-ext-success-container);
-  --warning-base: var(--md-ext-warning);  --warning-text: var(--md-ext-on-warning-container);
-  --warning-border: var(--md-ext-warning-outline); --warning-bg: var(--md-ext-warning-container);
-  --error-base: var(--md-ext-error);      --error-text: var(--md-ext-on-error-container);
-  --error-border: var(--md-ext-error-outline);     --error-bg: var(--md-ext-error-container);
-  --info-base: var(--md-ext-info);        --info-text: var(--md-ext-on-info-container);
-  --info-border: var(--md-ext-info-outline);       --info-bg: var(--md-ext-info-container);
-}
-
-/* Surfaces. --bg-base is the prototype's 'white': every card, bar, popup
-   and sheet stands on it. Light M3 raises things by going whiter, dark M3
-   by going lighter, so the same token has to point at opposite ends of the
-   container ramp — lowest in B2C, a step above the ground in B2B. */
-:root,
-[data-audience="b2c"] {
-  --bg-canvas:  var(--md-sys-color-surface-container);
-  --bg-base:    var(--md-sys-color-surface-container-lowest);
-  --bg-surface: var(--md-sys-color-surface-container-low);
-  --bg-muted:   var(--md-sys-color-surface-container-high);
-  --bg-subtle:  var(--md-sys-color-surface-container-highest);
-}
-[data-audience="b2b"] {
-  --bg-canvas:  var(--md-sys-color-surface);
-  --bg-base:    var(--md-sys-color-surface-container-low);
-  --bg-surface: var(--md-sys-color-surface-container);
-  --bg-muted:   var(--md-sys-color-surface-container-high);
-  --bg-subtle:  var(--md-sys-color-surface-container-highest);
-}
-
-/* The screens also reach for a handful of ramp steps directly — neutral-200
-   as a quiet fill, brand-50/100 as a tint, neutral-900 as a dark banner.
-   In B2B those steps have to mean the same *job* on a dark ground, so the
-   legacy ramp names are remapped by role there. The new --lo-* scales above
-   never change; only these compatibility names do. */
-[data-audience="b2b"] {
-  --white: var(--md-sys-color-surface-container-lowest);
-  --black: #FFFFFF;
-
-  --neutral-100: var(--md-sys-color-surface-container-low);
-  --neutral-200: var(--md-sys-color-surface-container-high);
-  --neutral-300: var(--md-sys-color-surface-container-highest);
-  --neutral-400: #4A5157;
-  --neutral-500: #6C757D;
-  --neutral-600: var(--lo-neutral-500);
-  --neutral-700: var(--lo-neutral-400);
-  --neutral-800: var(--lo-neutral-300);
-  --neutral-900: var(--lo-neutral-200);
-
-  --brand-50:  #221A30;
-  --brand-100: #2D2140;
-  --brand-200: #4A2E86;
-  --brand-300: var(--lo-primary-400);
-  --brand-400: var(--lo-primary-300);
-  /* 500 and 600 stay the brand purple — universal */
-}
-
-
-
-/* Pipeline stage tints and inks. The colour-coded views paint each stage in
-   its own hue (js/data.js MASTER_STAGES); these were literal hex, which
-   could only ever be light. B2C keeps the original values; B2B mixes the
-   same accent into the dark surface and lifts the ink so it still reads. */
-:root,
-[data-audience="b2c"] {
-  --stage-qualifying-tint: #FDF0E4; --stage-qualifying-ink: #9A5A16;
-  --stage-discovery-tint:  #E4F4F9; --stage-discovery-ink:  #0A6E85;
-  --stage-progress-tint:   #FCF6E0; --stage-progress-ink:   #8A6D0B;
-  --stage-approval-tint:   #E3F6EC; --stage-approval-ink:   #027A48;
-  --stage-settlement-tint: #F1E9FC; --stage-settlement-ink: #47109B;
-}
-[data-audience="b2b"] {
-  --stage-qualifying-tint: color-mix(in srgb, #F2994A 16%, var(--md-sys-color-surface-container-low));
-  --stage-discovery-tint:  color-mix(in srgb, #0E9FBF 16%, var(--md-sys-color-surface-container-low));
-  --stage-progress-tint:   color-mix(in srgb, #F2C94C 14%, var(--md-sys-color-surface-container-low));
-  --stage-approval-tint:   color-mix(in srgb, #12B76A 16%, var(--md-sys-color-surface-container-low));
-  --stage-settlement-tint: color-mix(in srgb, #A574F1 18%, var(--md-sys-color-surface-container-low));
-  --stage-qualifying-ink: #F7BE8A;
-  --stage-discovery-ink:  #7FD3E6;
-  --stage-progress-ink:   #F2D98A;
-  --stage-approval-ink:   #8EE6B5;
-  --stage-settlement-ink: #D1B4FC;
-}
-
-/* The contact glyphs and the assist mark run a purple-to-red gradient
-   (js/icons.js). Brand purple strokes vanish on a dark ground, so B2B
-   starts the ramp on the lifted ink instead. */
-[data-audience="b2b"] {
-  --icon-grad-from: var(--lo-primary-200);
-  --icon-grad-mid:  var(--lo-primary-300);
+:root {
+  --md-filled-button-container-color: #5614BB;
+  --md-filled-button-label-text-color: #FFFFFF;
+  --md-filled-button-icon-color: #FFFFFF;
+  --md-filled-button-hover-label-text-color: #FFFFFF;
+  --md-filled-button-hover-icon-color: #FFFFFF;
+  --md-filled-button-focus-label-text-color: #FFFFFF;
+  --md-filled-button-pressed-label-text-color: #FFFFFF;
+  --md-filled-button-hover-state-layer-color: #FFFFFF;
+  --md-filled-button-pressed-state-layer-color: #FFFFFF;
+  --md-checkbox-selected-container-color: #5614BB;
+  --md-checkbox-selected-hover-container-color: #5614BB;
+  --md-checkbox-selected-focus-container-color: #5614BB;
+  --md-checkbox-selected-pressed-container-color: #5614BB;
+  --md-checkbox-selected-icon-color: #FFFFFF;
+  --md-checkbox-selected-hover-icon-color: #FFFFFF;
+  --md-checkbox-selected-focus-icon-color: #FFFFFF;
+  --md-checkbox-selected-pressed-icon-color: #FFFFFF;
 }

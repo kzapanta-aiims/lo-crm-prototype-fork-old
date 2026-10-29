@@ -78,7 +78,7 @@ document.body.insertAdjacentHTML('afterbegin', `
 
   <span class="bar__spacer"></span>
 
-  <div class="aud" id="aud" role="radiogroup" aria-label="Audience" title="Audience — B2C is light, B2B is dark (A)">
+  <div class="aud" id="aud" role="radiogroup" aria-label="Audience" title="Audience for the M3 versions — B2C is light, B2B is dark (A). The original versions are light only.">
     <button role="radio" data-aud="b2c">B2C · Light</button>
     <button role="radio" data-aud="b2b">B2B · Dark</button>
   </div>

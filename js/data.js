@@ -22,11 +22,11 @@ const DOC_STATUS = {
 const MASTER_STAGES = [
   /* `tint` / `ink` are used by the colour-coded variant, which paints each
      stage container in its own hue instead of a neutral grey. */
-  { id:'qualifying', label:'Qualifying',  note:'Lead captured, not yet qualified',          colour:'var(--accent-orange)', tint:'var(--stage-qualifying-tint)', ink:'var(--stage-qualifying-ink)' },
-  { id:'discovery',  label:'Discovery',   note:'Gathering documents and requirements',      colour:'var(--accent-teal)',   tint:'var(--stage-discovery-tint)', ink:'var(--stage-discovery-ink)' },
-  { id:'progress',   label:'In Progress', note:'Submitted and progressing with the lender', colour:'var(--accent-yellow)', tint:'var(--stage-progress-tint)', ink:'var(--stage-progress-ink)' },
-  { id:'approval',   label:'Approval',    note:'Conditional or formal approval received',   colour:'var(--success-base)',  tint:'var(--stage-approval-tint)', ink:'var(--stage-approval-ink)' },
-  { id:'settlement', label:'Settlement',  note:'Settlement booked or in progress',          colour:'var(--brand-600)',     tint:'var(--stage-settlement-tint)', ink:'var(--stage-settlement-ink)' },
+  { id:'qualifying', label:'Qualifying',  note:'Lead captured, not yet qualified',          colour:'var(--accent-orange)', tint:'#FDF0E4', ink:'#9A5A16' },
+  { id:'discovery',  label:'Discovery',   note:'Gathering documents and requirements',      colour:'var(--accent-teal)',   tint:'#E4F4F9', ink:'#0A6E85' },
+  { id:'progress',   label:'In Progress', note:'Submitted and progressing with the lender', colour:'var(--accent-yellow)', tint:'#FCF6E0', ink:'#8A6D0B' },
+  { id:'approval',   label:'Approval',    note:'Conditional or formal approval received',   colour:'var(--success-base)',  tint:'#E3F6EC', ink:'#027A48' },
+  { id:'settlement', label:'Settlement',  note:'Settlement booked or in progress',          colour:'var(--brand-600)',     tint:'#F1E9FC', ink:'#47109B' },
   /* Broker-set rather than a pipeline stage: darker surface, clock glyph,
      and collapsed by default so paused deals stay out of the way. */
   { id:'snoozed',    label:'Snoozed',     note:'Paused by you',                           colour:'var(--neutral-400)',
