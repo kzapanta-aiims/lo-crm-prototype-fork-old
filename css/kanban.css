@@ -60,7 +60,7 @@
   align-items: center;
   gap: var(--space-8);
   padding: var(--space-8);
-  border: 1px solid rgba(206, 212, 218, .5);
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-10);
   box-shadow: 1px 1px 3px rgba(0, 0, 0, .12);
   font: var(--weight-medium) 12px/16.5px var(--font-family);
@@ -269,8 +269,8 @@
    -------------------------------------------------------------------------- */
 
 .kb-c {
-  --kb-c-call: #ECDEFE;
-  --kb-c-task: #EFEFEF;
+  --kb-c-call: var(--bg-brand-subtle);
+  --kb-c-task: var(--bg-muted);
 
   flex: none;
   width: 340px;

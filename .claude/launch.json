@@ -6,6 +6,12 @@
       "runtimeExecutable": "python",
       "runtimeArgs": ["serve.py", "8137"],
       "port": 8137
+    },
+    {
+      "name": "crm-mocks-node",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["serve.mjs", "8137"],
+      "port": 8137
     }
   ]
 }

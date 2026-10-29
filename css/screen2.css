@@ -44,7 +44,7 @@ html, body {
 /* The whole view, header included, sits on one flat ground. It is also what
    the stage-path export has behind its own rounded ends, so that image
    blends instead of showing corners. */
-.s2 { --s2-ground: #F5F5F5; }
+.s2 { --s2-ground: var(--bg-canvas); }
 
 .s2 {
   position: absolute;
@@ -307,7 +307,7 @@ html, body {
 .s2-pick {
   gap: var(--space-4);
   padding: var(--space-8);
-  background: rgba(233, 236, 239, .8);
+  background: color-mix(in srgb, var(--bg-muted) 80%, transparent);
   border: 1px solid var(--neutral-100);
   backdrop-filter: blur(3px);
   color: var(--text-primary);
@@ -317,9 +317,9 @@ html, body {
 .s2-save {
   gap: var(--space-6);
   padding: 6.5px 13px 7.5px;
-  background: rgba(248, 249, 250, .7);
-  border: 1px solid #E3E2E9;
-  color: #211D30;
+  background: color-mix(in srgb, var(--bg-surface) 70%, transparent);
+  border: 1px solid var(--border-default);
+  color: var(--text-primary);
 }
 
 .s2-mid { display: flex; flex-direction: column; gap: var(--space-16); padding-right: var(--space-4); }
@@ -339,12 +339,12 @@ html, body {
 .s2-gauge__n {
   position: absolute;
   font: var(--weight-bold) 14.5px/1 var(--font-family);
-  color: #211D30;
+  color: var(--text-primary);
 }
 .s2-gauge__label {
   margin-top: -2px;
   font: var(--weight-medium) 12px/16.5px var(--font-family);
-  color: rgba(136, 136, 136, .7);
+  color: var(--text-placeholder);
   text-align: center;
 }
 
@@ -403,25 +403,25 @@ html, body {
    750px, but a fixed width loses the third column as soon as the scrollbar
    takes its 4px, so the thirds are computed instead. */
 .s2-field { min-width: 0; display: flex; flex-direction: column; gap: var(--space-6); }
-.s2-field__label { font: var(--weight-medium) 11px/16.5px var(--font-family); color: #6E6A81; }
+.s2-field__label { font: var(--weight-medium) 11px/16.5px var(--font-family); color: var(--text-tertiary); }
 
 .s2-input {
   position: relative;
   height: 36px;
   display: flex; align-items: center;
   padding: 0 13px;
-  border: 1px solid #E3E2E9;
+  border: 1px solid var(--border-default);
   border-radius: var(--radius-10);
-  background: #F6F6F9;
+  background: var(--bg-surface);
 }
 .s2-input__val {
   flex: 1;
   font: var(--weight-regular) 14px/1 var(--font-family);
-  color: #211D30;
+  color: var(--text-primary);
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 .s2-input__val--mid { font-size: 13px; text-align: center; }
-.s2-input__fix { font: var(--weight-regular) 12px/18px var(--font-family); color: #6E6A81; }
+.s2-input__fix { font: var(--weight-regular) 12px/18px var(--font-family); color: var(--text-tertiary); }
 .s2-input__fix--pre { margin-right: var(--space-8); }
 .s2-input__fix--suf { margin-left: var(--space-8); }
 .s2-input__chev { display: flex; color: var(--text-tertiary); margin-left: var(--space-8); }
@@ -533,7 +533,7 @@ html, body {
 .s2-card--ai .s2-ai__msg { flex: 1; min-height: 0; overflow-y: auto; }
 .s2-card--ai .s2-ai__input { flex: none; }
 .s2-card__head--ai {
-  background: linear-gradient(90deg, #E7E9EC 0%, #DBC8FB 100%);
+  background: linear-gradient(90deg, var(--bg-muted) 0%, var(--brand-200) 100%);
   color: var(--text-brand);
   cursor: pointer;
   border-bottom: 0;

@@ -3,6 +3,63 @@
 Static 1920×1080 mock-ups built on the design system in the Figma file
 **CRM-2026** (page: `↪️ Design System`).
 
+## Material 3 fork
+
+This fork rebuilds the visual layer on **Material 3**, with the LoanOptions
+brand colours applied through M3's colour roles. The screens, data and
+behaviour are unchanged; only how they look.
+
+**Audiences.** LoanOptions runs light for B2C and dark for B2B. Both are
+here, switched by `html[data-audience="b2c" | "b2b"]`:
+
+| | |
+|---|---|
+| Prototype view | **B2C · Light / B2B · Dark** in the toolbar, or press `A`. Every open frame flips live, both panes of a compare included |
+| A single page | `?aud=b2b` on the URL, e.g. `/kanban-v1.html?aud=b2b` |
+| Otherwise | The last choice, from localStorage; B2C if there is none |
+
+**Brand purple is universal.** `#5614BB` fills the brand surfaces (filled
+buttons, the mark, checked boxes) identically in both audiences. Purple used
+as *ink* (text, icons, outlines) steps up to primary-200 `#D1B4FC` in B2B,
+because `#5614BB` on a dark ground is 2.2:1. That is what M3's own dark
+schemes do (tone 80).
+
+**Where it lives**
+
+| File | |
+|---|---|
+| `css/m3.css` | Loaded right after `tokens.css`. Tailwind-style 50–950 scales for primary, secondary, tertiary and neutral; the M3 roles (`--md-sys-color-*`) for each audience; M3 shape, elevation, state, motion and type tokens; and a bridge that re-points the prototype's own tokens (`--bg-*`, `--text-*`, `--border-*`, the status sets) at those roles, so the existing stylesheets follow the audience untouched |
+| `css/m3-components.css` | Loaded **last**, because the screen stylesheets set the same properties at the same specificity. The M3 component treatment: filled / outlined / text buttons, segmented buttons, chips, outlined fields, M3 checkboxes, cards, the search bar, focus rings and state layers |
+| `js/audience.js` | Sets `data-audience` before first paint, and listens for the toggle |
+| `tailwind/theme.css` | The same scales and roles as a Tailwind v4 `@theme`, for the real build. `bg-primary-500` is a fixed scale step; `bg-m3-surface-container` is a role and flips with the audience |
+
+**The scales.** Every step the brand defined is kept verbatim (primary
+100–900, neutral 100–900, the semantic tables in light and dark). The rest
+is generated in HCT from the core colour so it shares its hue and chroma:
+primary 50 / 950, all of secondary (core `#2F0273` at 800) and tertiary
+(core `#F33829` at 500), and the neutral steps below 900 that dark surfaces
+need.
+
+**What changed in the screens' own files**, beyond the two new stylesheets:
+the few literal colours that could only ever be light (the application
+view's greys, the kanban card fills, the document-box tints and the five
+pipeline-stage tints in `js/data.js`) now point at tokens, and the contact
+icon gradient takes its stops from a token so it can lift in B2B.
+
+**Known gaps**
+
+- The stage path in the application view is still a PNG. B2B darkens it
+  with a filter, which is close but not exact. Rebuilding it in CSS fixes it.
+- Tertiary `#F33829` sits right next to error `#D92D20`. In a CRM, where red
+  already means overdue, tertiary is defined but deliberately not used on
+  any UI; treat it as a marketing accent.
+- Weights moved to M3's 400 / 500. Articulat regular at 12px is lighter than
+  the old 500. If that reads too thin, set `--weight-medium` back to 500 in
+  `css/m3.css` (one line).
+
+No Python? `node serve.mjs` and `node stamp.mjs` do the same jobs as
+`serve.py` and `stamp.py`.
+
 ## Running
 
 ```bash

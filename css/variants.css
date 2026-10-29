@@ -210,11 +210,11 @@
 }
 .docbox b { font: var(--weight-demi) 15px/1 var(--font-family); }
 
-.docbox--review   { background: #FEF8EC; border-color: var(--warning-border); }
+.docbox--review   { background: color-mix(in srgb, var(--bg-warning) 45%, var(--bg-base)); border-color: var(--warning-border); }
 .docbox--review b { color: var(--text-warning); }
-.docbox--rejected   { background: #FEF0EF; border-color: var(--error-border); }
+.docbox--rejected   { background: color-mix(in srgb, var(--bg-error) 45%, var(--bg-base)); border-color: var(--error-border); }
 .docbox--rejected b { color: var(--text-error); }
-.docbox--ok   { background: #ECFAF2; border-color: var(--success-border); }
+.docbox--ok   { background: color-mix(in srgb, var(--bg-success) 45%, var(--bg-base)); border-color: var(--success-border); }
 .docbox--ok b { color: var(--text-success); }
 .docbox--pending   { background: var(--bg-surface); border-color: var(--border-muted); }
 .docbox--pending b { color: var(--text-secondary); }

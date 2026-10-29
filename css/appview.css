@@ -7,7 +7,7 @@
 /* The whole view, header included, sits on one flat ground rather than the
    worklist's canvas grey. It is also what the stage-path export has behind
    its own rounded ends, so that image blends instead of showing corners. */
-.av { --av-ground: #F5F5F5; }
+.av { --av-ground: var(--bg-canvas); }
 
 .av {
   position: absolute;
@@ -272,7 +272,7 @@
 .av-pick {
   gap: var(--space-4);
   padding: var(--space-8);
-  background: rgba(233, 236, 239, .8);
+  background: color-mix(in srgb, var(--bg-muted) 80%, transparent);
   border: 1px solid var(--neutral-100);
   backdrop-filter: blur(3px);
   color: var(--text-primary);
@@ -282,9 +282,9 @@
 .av-save {
   gap: var(--space-6);
   padding: 6.5px 13px 7.5px;
-  background: rgba(248, 249, 250, .7);
-  border: 1px solid #E3E2E9;
-  color: #211D30;
+  background: color-mix(in srgb, var(--bg-surface) 70%, transparent);
+  border: 1px solid var(--border-default);
+  color: var(--text-primary);
 }
 
 .av-mid { display: flex; flex-direction: column; gap: var(--space-16); padding-right: var(--space-4); }
@@ -304,12 +304,12 @@
 .av-gauge__n {
   position: absolute;
   font: var(--weight-bold) 14.5px/1 var(--font-family);
-  color: #211D30;
+  color: var(--text-primary);
 }
 .av-gauge__label {
   margin-top: -2px;
   font: var(--weight-medium) 12px/16.5px var(--font-family);
-  color: rgba(136, 136, 136, .7);
+  color: var(--text-placeholder);
   text-align: center;
 }
 
@@ -368,25 +368,25 @@
    750px, but a fixed width loses the third column as soon as the scrollbar
    takes its 4px, so the thirds are computed instead. */
 .av-field { min-width: 0; display: flex; flex-direction: column; gap: var(--space-6); }
-.av-field__label { font: var(--weight-medium) 11px/16.5px var(--font-family); color: #6E6A81; }
+.av-field__label { font: var(--weight-medium) 11px/16.5px var(--font-family); color: var(--text-tertiary); }
 
 .av-input {
   position: relative;
   height: 36px;
   display: flex; align-items: center;
   padding: 0 13px;
-  border: 1px solid #E3E2E9;
+  border: 1px solid var(--border-default);
   border-radius: var(--radius-10);
-  background: #F6F6F9;
+  background: var(--bg-surface);
 }
 .av-input__val {
   flex: 1;
   font: var(--weight-regular) 14px/1 var(--font-family);
-  color: #211D30;
+  color: var(--text-primary);
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 .av-input__val--mid { font-size: 13px; text-align: center; }
-.av-input__fix { font: var(--weight-regular) 12px/18px var(--font-family); color: #6E6A81; }
+.av-input__fix { font: var(--weight-regular) 12px/18px var(--font-family); color: var(--text-tertiary); }
 .av-input__fix--pre { margin-right: var(--space-8); }
 .av-input__fix--suf { margin-left: var(--space-8); }
 .av-input__chev { display: flex; color: var(--text-tertiary); margin-left: var(--space-8); }
@@ -498,7 +498,7 @@
 .av-card--ai .av-ai__msg { flex: 1; min-height: 0; overflow-y: auto; }
 .av-card--ai .av-ai__input { flex: none; }
 .av-card__head--ai {
-  background: linear-gradient(90deg, #E7E9EC 0%, #DBC8FB 100%);
+  background: linear-gradient(90deg, var(--bg-muted) 0%, var(--brand-200) 100%);
   color: var(--text-brand);
   cursor: pointer;
   border-bottom: 0;

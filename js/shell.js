@@ -78,6 +78,11 @@ document.body.insertAdjacentHTML('afterbegin', `
 
   <span class="bar__spacer"></span>
 
+  <div class="aud" id="aud" role="radiogroup" aria-label="Audience" title="Audience — B2C is light, B2B is dark (A)">
+    <button role="radio" data-aud="b2c">B2C · Light</button>
+    <button role="radio" data-aud="b2b">B2B · Dark</button>
+  </div>
+
   ${cfg.tour ? `<button class="ctrl ctrl--tour" id="tourBtn" title="Replay the spotlight tour from ${VERSIONS[0].label}">Highlight the points of interest</button>` : ''}
   ${CAN_COMPARE ? `<button class="ctrl" id="compareBtn" aria-pressed="false">Compare <span class="kbd">C</span></button>` : ''}
   <button class="ctrl" id="zoomBtn">Fit <span class="kbd">Z</span></button>
@@ -211,6 +216,18 @@ if (CAN_COMPARE) {
 
 $('#zoomBtn').onclick = () => { state.fit = !state.fit; renderTabs(); scale(); };
 
+/* Audience. The frames read it from localStorage (js/audience.js), and the
+   'storage' event reaches every frame that is open, so writing it here is
+   enough to flip both panes of a compare at once. */
+const AUD_KEY = 'lo-audience';
+function readAud() { try { return localStorage.getItem(AUD_KEY) === 'b2b' ? 'b2b' : 'b2c'; } catch (e) { return 'b2c'; } }
+function setAud(a) {
+  try { localStorage.setItem(AUD_KEY, a); } catch (e) {}
+  $('#aud').querySelectorAll('button').forEach(b => b.setAttribute('aria-checked', String(b.dataset.aud === a)));
+}
+$('#aud').querySelectorAll('button').forEach(b => { b.onclick = () => setAud(b.dataset.aud); });
+setAud(readAud());
+
 /* Replaying clears what each version remembers of its tour and drops back to
    the first one, which is where the full set of points lives. */
 if (cfg.tour) {
@@ -241,6 +258,8 @@ document.addEventListener('keydown', (e) => {
     $('#compareBtn').click();
   } else if (k === 'z') {
     $('#zoomBtn').click();
+  } else if (k === 'a') {
+    setAud(readAud() === 'b2b' ? 'b2c' : 'b2b');
   }
 });
 

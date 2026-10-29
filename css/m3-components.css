@@ -1,0 +1,343 @@
+/* ==========================================================================
+   LoanOptions CRM — Material 3 components
+   --------------------------------------------------------------------------
+   The M3 treatment for the shared pieces. Loaded LAST on every page, after
+   the screen stylesheets, because those set the same properties at the
+   same specificity and the later file wins. The tokens it uses live in
+   css/m3.css, which loads first.
+   ========================================================================== */
+
+html, body { background: var(--md-sys-color-surface-container-highest); }
+
+/* ---------- Type ramp utilities onto the M3 scale ------------------------- */
+
+.t-h4       { font: var(--md-sys-typescale-title-large); }
+.t-body-lg  { font: var(--md-sys-typescale-body-large);  letter-spacing: .5px; }
+.t-body-md  { font: var(--md-sys-typescale-body-medium); letter-spacing: .25px; }
+.t-body-sm  { font: var(--md-sys-typescale-body-small);  letter-spacing: .4px; }
+.t-label-lg { font: var(--md-sys-typescale-title-medium); letter-spacing: .15px; }
+.t-label-md { font: var(--md-sys-typescale-label-large); letter-spacing: .1px; }
+.t-label-sm { font: var(--md-sys-typescale-label-medium); letter-spacing: .5px; }
+.t-overline { font: var(--md-sys-typescale-label-small); letter-spacing: .5px; text-transform: none; }
+.t-caption  { font: var(--md-sys-typescale-body-small);  letter-spacing: .4px; }
+
+/* ---------- State layers -------------------------------------------------
+   M3 never changes a component's colour on hover; it lays a translucent
+   coat of the content colour over it. A background-image gradient does
+   exactly that over whatever the background-color already is. */
+
+.btn, .actionbtn, .pill, .v1-pill, .icon-btn, .nav__btn, .contactbtn, .toggle__item,
+.vx-chip, .vx-iconbtn, .vx-ibtn, .kb-new, .kb-select, .kb-view, .kb-cp, .kb-filter,
+.select, .v1-cog, .v1-kebab, .av-cta, .s2-cta, .qa {
+  transition: background-color var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard),
+              box-shadow var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard);
+}
+:is(.btn, .actionbtn, .pill, .v1-pill, .icon-btn, .nav__btn, .contactbtn, .toggle__item,
+    .vx-chip, .vx-iconbtn, .vx-ibtn, .kb-new, .kb-select, .kb-view, .kb-cp, .kb-filter,
+    .select, .v1-cog, .v1-kebab, .av-cta, .s2-cta):hover {
+  background-image: linear-gradient(color-mix(in srgb, currentColor var(--md-sys-state-hover), transparent) 0 0);
+}
+:is(.btn, .actionbtn, .pill, .v1-pill, .icon-btn, .nav__btn, .contactbtn, .toggle__item,
+    .vx-chip, .kb-new, .kb-cp, .select):active {
+  background-image: linear-gradient(color-mix(in srgb, currentColor var(--md-sys-state-pressed), transparent) 0 0);
+}
+
+/* M3 focus indicator: 3px, secondary, offset 2px */
+:focus-visible {
+  outline: 3px solid var(--md-sys-color-secondary);
+  outline-offset: 2px;
+}
+
+/* ---------- Top app bar --------------------------------------------------- */
+
+.nav, .appbar {
+  background: var(--md-sys-color-surface-container-low);
+  border-bottom: 0;
+}
+.nav__mark, .logo { border-radius: var(--md-sys-shape-corner-medium); background: var(--md-sys-color-brand); }
+
+/* M3 search bar: full-round, filled with container-high, no outline */
+.nav__search {
+  height: 48px;
+  border: 0;
+  background: var(--md-sys-color-surface-container-high);
+  color: var(--md-sys-color-on-surface-variant);
+  padding: 0 var(--space-16) 0 var(--space-20);
+  gap: var(--space-16);
+}
+.nav__btn { width: 40px; height: 40px; color: var(--md-sys-color-on-surface-variant); }
+.nav__badge { border-color: var(--md-sys-color-surface-container-low); background: var(--md-sys-color-error); }
+.nav__divider { background: var(--md-sys-color-outline-variant); }
+
+.boardbar, .vx-bar, .kb-bar {
+  background: var(--md-sys-color-surface-container-low);
+  border-color: var(--border-subtle);
+}
+
+/* ---------- Buttons ------------------------------------------------------- */
+
+/* Filled — the brand fill, the same in both audiences */
+.btn {
+  height: 40px;
+  padding: 0 var(--space-24);
+  border-radius: var(--md-sys-shape-corner-full);
+  font: var(--md-sys-typescale-label-large);
+  letter-spacing: .1px;
+}
+.btn--primary { background: var(--md-sys-color-brand); color: var(--md-sys-color-on-brand); }
+.btn--primary:hover { box-shadow: var(--md-sys-elevation-1); }
+
+/* Outlined */
+.btn--secondary {
+  background: transparent;
+  color: var(--md-sys-color-primary);
+  border: 1px solid var(--md-sys-color-outline);
+}
+
+/* "+ New" is the one creating action on each screen, so it takes the
+   filled brand button — M3 gives a screen's primary action the most
+   emphasis. The prototype drew it as a 2px brand outline. */
+.actionbtn, .kb-new {
+  border: 0;
+  background: var(--md-sys-color-brand);
+  color: var(--md-sys-color-on-brand);
+  font: var(--md-sys-typescale-label-large);
+  letter-spacing: .1px;
+}
+.actionbtn:hover, .kb-new:hover { background-color: var(--md-sys-color-brand); box-shadow: var(--md-sys-elevation-1); }
+.kb-new { height: 32px; padding: 0 var(--space-16) 0 var(--space-12); }
+.kb-new svg { color: currentColor; }
+
+/* Text button */
+.kb-filter {
+  height: 32px;
+  padding: 0 var(--space-12);
+  border-radius: var(--md-sys-shape-corner-full);
+  text-decoration: none;
+  color: var(--md-sys-color-primary);
+  font: var(--md-sys-typescale-label-large);
+}
+
+/* Icon buttons — standard (no container) unless they say otherwise */
+.icon-btn, .vx-iconbtn, .vx-ibtn, .v1-cog, .v1-kebab {
+  border-radius: var(--md-sys-shape-corner-full);
+}
+.contactbtn {
+  border-radius: var(--md-sys-shape-corner-full);
+  background: var(--md-sys-color-surface-container-high);
+  color: var(--md-sys-color-on-surface-variant);
+}
+.contactbtn:hover { background: var(--md-sys-color-surface-container-high); }
+
+/* ---------- Segmented buttons ---------------------------------------------
+   The view toggle becomes an M3 segmented button: one outlined pill, the
+   selected segment filled with secondary-container. */
+
+.toggle {
+  gap: 0;
+  padding: 0;
+  border: 1px solid var(--md-sys-color-outline);
+  border-radius: var(--md-sys-shape-corner-full);
+  background: transparent;
+  overflow: hidden;
+}
+.toggle__item, .vx-bar .toggle__item {
+  height: 40px;
+  border-radius: 0;
+  padding: 0 var(--space-16);
+  color: var(--md-sys-color-on-surface);
+  font: var(--md-sys-typescale-label-large);
+}
+.vx-bar .toggle__item { height: 38px; }
+.toggle__item + .toggle__item { border-left: 1px solid var(--md-sys-color-outline); }
+.toggle__item--active {
+  background: var(--md-sys-color-secondary-container);
+  color: var(--md-sys-color-on-secondary-container);
+  box-shadow: none;
+}
+
+/* Kanban's board / list / easy-view tabs: same treatment, compact */
+.kb-views {
+  gap: 0;
+  border: 1px solid var(--md-sys-color-outline);
+  border-radius: var(--md-sys-shape-corner-full);
+  overflow: hidden;
+}
+.kb-view {
+  height: 32px;
+  padding: 0 var(--space-12);
+  opacity: 1;
+  color: var(--md-sys-color-on-surface);
+  font: var(--md-sys-typescale-label-large);
+}
+.kb-view + .kb-view { border-left: 1px solid var(--md-sys-color-outline); }
+.kb-view.is-on {
+  background: var(--md-sys-color-secondary-container);
+  color: var(--md-sys-color-on-secondary-container);
+  font-weight: 500;
+}
+
+/* ---------- Chips ---------------------------------------------------------
+   Quick-action pills and filter pills are M3 chips: 32px, small corner,
+   outline-variant, selected = secondary-container with no outline. */
+
+.pill, .v1-pill, .vx-chip {
+  height: 32px;
+  border-radius: var(--md-sys-shape-corner-small);
+  border: 1px solid var(--md-sys-color-outline-variant);
+  background: transparent;
+  color: var(--md-sys-color-on-surface-variant);
+  font: var(--md-sys-typescale-label-large);
+  letter-spacing: .1px;
+}
+.pill--active, .v1 .v1-pill--on, .vx-chip--on {
+  border-color: transparent;
+  background: var(--md-sys-color-secondary-container);
+  color: var(--md-sys-color-on-secondary-container);
+}
+.kb-cp { border-radius: var(--md-sys-shape-corner-small); border-color: var(--md-sys-color-outline-variant); }
+.kb-cp--on {
+  background: var(--md-sys-color-secondary-container);
+  color: var(--md-sys-color-on-secondary-container);
+}
+
+/* Status labels: M3 has no "badge" for this, so they follow the assist-chip
+   shape at label size — small corner, container colour, no outline. */
+.badge { border-radius: var(--md-sys-shape-corner-small); }
+
+/* ---------- Text fields and selects ---------------------------------------
+   M3 outlined text field: extra-small corner, outline colour, 1px. */
+
+.select, .search, .kb-select {
+  border: 1px solid var(--md-sys-color-outline);
+  border-radius: var(--md-sys-shape-corner-extra-small);
+  background: transparent;
+  box-shadow: none;
+  color: var(--md-sys-color-on-surface);
+}
+.kb-select { height: 32px; padding: 0 var(--space-8) 0 var(--space-12); }
+.select--placeholder, .search { color: var(--md-sys-color-on-surface-variant); }
+.kb-search {
+  height: 36px;
+  border: 0;
+  padding: 0 var(--space-16);
+  background: var(--md-sys-color-surface-container-high);
+}
+
+/* ---------- Checkbox ------------------------------------------------------ */
+
+.checkbox, .v1 .v1-check {
+  border-radius: 2px;
+  border: 2px solid var(--md-sys-color-on-surface-variant);
+}
+.v1 .v1-check.is-checked { border-color: var(--md-sys-color-brand); }
+
+/* ---------- Cards, groups, board ------------------------------------------ */
+
+.kb { background: var(--md-sys-color-surface-container-low); }
+.kb-col {
+  border-radius: var(--md-sys-shape-corner-large);
+  background: var(--md-sys-color-surface-container);
+}
+.kb-col[data-stage="newlead"] { background: color-mix(in srgb, var(--md-ext-error-container) 70%, var(--md-sys-color-surface-container)); }
+.kb-col[data-stage="snoozed"] { background: var(--md-sys-color-surface-container-highest); }
+
+/* Elevated card. In B2B the column drops to the lowest container, a
+   recessed well, so the card (on --bg-base) reads as raised out of it. */
+.kb-c {
+  border-radius: var(--md-sys-shape-corner-medium);
+  box-shadow: var(--md-sys-elevation-1);
+}
+[data-audience="b2b"] .kb-col:not([data-stage="newlead"]) { background: var(--md-sys-color-surface-container-lowest); }
+[data-audience="b2b"] .kb-col[data-stage="snoozed"] { background: var(--md-sys-color-surface-container); }
+
+.kb-stat--over { border-radius: var(--md-sys-shape-corner-small); }
+
+/* Work-list rows sit on surface; the sticky header and stage bands use
+   container steps so they separate without rules. */
+.v1, .v2 .v1-headwrap { background: var(--bg-base); }
+.v1 .v1-row.is-selected,
+.v1 .v1-row.is-selected .v1-sticky { background: color-mix(in srgb, var(--md-sys-color-primary) 8%, var(--bg-base)); }
+
+/* ---------- Application view ---------------------------------------------- */
+
+.av-cta, .s2-cta {
+  border-radius: var(--md-sys-shape-corner-full);
+  background: var(--md-sys-color-secondary-container);
+  color: var(--md-sys-color-on-secondary-container);
+}
+.av-cta:hover, .s2-cta:hover { background: var(--md-sys-color-secondary-container); }
+
+/* The stage path is a flat PNG exported light (see README). Until it is
+   rebuilt in CSS, B2B inverts its lightness and turns the hue back round,
+   so the greys go dark and the purple step stays purple. */
+[data-audience="b2b"] img[src*="stage-path"] { filter: invert(.9) hue-rotate(180deg); }
+
+/* ---------- Work list ------------------------------------------------------
+   The work list's own pieces are scoped under .v1 / .vx-bar in the screen
+   stylesheets, so they are matched at that specificity here. */
+
+.vx-bar .toggle { padding: 0; }
+
+/* Outlined icon buttons */
+.vx-iconbtn, .ai-btn {
+  width: 40px; height: 40px;
+  border-radius: var(--md-sys-shape-corner-full);
+  border: 1px solid var(--md-sys-color-outline-variant);
+  background: transparent;
+  color: var(--md-sys-color-on-surface-variant);
+}
+.ai-btn { color: var(--md-sys-color-primary); }
+.ai-btn.is-on {
+  border-color: transparent;
+  background: var(--md-sys-color-secondary-container);
+}
+
+/* Contact — filled-tonal icon buttons, neutral so three per row do not
+   turn the table purple. The icon carries the brand. */
+.contactbtn {
+  width: 40px; height: 40px;
+  background: var(--md-sys-color-surface-container-high);
+  color: var(--md-sys-color-primary);
+}
+
+/* Settings for the columns: tonal icon button */
+.v1 .v1-cog {
+  width: 32px; height: 32px;
+  border: 0;
+  border-radius: var(--md-sys-shape-corner-full);
+  background: var(--md-sys-color-secondary-container);
+  color: var(--md-sys-color-on-secondary-container);
+}
+.v1 .v1-cog.is-on { background: var(--md-sys-color-brand); color: var(--md-sys-color-on-brand); }
+.v1 .v1-kebab { width: 32px; height: 32px; border-radius: var(--md-sys-shape-corner-full); }
+
+/* M3 checkbox: 18px box, 2px on-surface-variant outline, 2px corner */
+.v1 .v1-check {
+  width: 18px; height: 18px;
+  border-radius: 2px;
+  border: 2px solid var(--md-sys-color-on-surface-variant);
+  background: transparent;
+  color: var(--md-sys-color-on-brand);
+}
+.v1 .v1-check:hover { border-color: var(--md-sys-color-on-surface); }
+.v1 .v1-check.is-checked { background: var(--md-sys-color-brand); border-color: var(--md-sys-color-brand); }
+
+/* Quick-action pills → M3 assist chips */
+.v1 .v1-pill {
+  height: 32px;
+  border-radius: var(--md-sys-shape-corner-small);
+  border-color: var(--md-sys-color-outline-variant);
+}
+
+/* Sub-stage and person tags → M3 chips (small corner) */
+.substage { height: 28px; border-radius: var(--md-sys-shape-corner-small); }
+.chip-person {
+  border-radius: var(--md-sys-shape-corner-small);
+  border-color: var(--md-sys-color-outline-variant);
+  background: transparent;
+}
+.chip-person--empty { border-color: var(--md-sys-color-outline); }
+
+/* Document boxes keep their status colours; corner to the M3 small step */
+.docbox { border-radius: var(--md-sys-shape-corner-small); }
